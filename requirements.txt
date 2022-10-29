@@ -1,4 +1,8 @@
 pymongo[srv]==4.2.0
 pandas
 notebook
+seaborn
+sklearn
+xgboost
+catboost
 -e .
