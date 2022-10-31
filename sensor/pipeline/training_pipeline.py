@@ -1,8 +1,14 @@
+"""
+This script defines the structure of Training pipeline. A pipeline is comprised on multiple components.
+Each components translates some inputs to outputs. We had defined separate class methods to perform
+the various tasks.
+"""
 from sensor.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig
 from sensor.entity.artifact_entity import DataIngestionArtifact
 from sensor.exception import SensorException
 import sys, os
 from sensor.logger import logging
+from sensor.components.data_ingestion import DataIngestion
 
 class TrainPipeline:
     
@@ -14,7 +20,10 @@ class TrainPipeline:
     def start_data_ingestion(self)->DataIngestionArtifact:
         try:
             logging.info("Starting data ingestion")
-            logging.info("Data ingestion Complete")
+            data_ingestion = DataIngestion(data_ingestion_config=self.data_ingestion_config)
+            data_ingestion_artifact = data_ingestion.initiate_data_ingestion()
+            logging.info(f"Data ingestion Completed and artifact: {data_ingestion_artifact}")
+            return data_ingestion_artifact
         except Exception as e:
             raise SensorException(e, sys)
 
