@@ -20,3 +20,6 @@ class MongoDBClient:
             raise e
 
 
+if __name__ == "__main__":
+    MongoDBClient()
+
