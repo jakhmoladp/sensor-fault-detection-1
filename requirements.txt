@@ -6,4 +6,6 @@ sklearn
 xgboost
 catboost
 from_root
+pyyaml
+dill
 -e .
