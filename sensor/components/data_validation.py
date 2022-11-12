@@ -121,6 +121,7 @@ class DataValidation:
 
         """
         try:
+            print("............initiating data validation")
             error_message = ""
             train_file_path = self.data_ingestion_artifact.trained_file_path
             test_file_path = self.data_ingestion_artifact.test_file_path
@@ -136,7 +137,7 @@ class DataValidation:
             status = self.validate_number_of_columns(dataframe=test_dataframe)
             if not status:
                 error_message=f"{error_message}Test dataframe does not contain all columns.\n"
-        
+            print("............number of columns validated")
 
             #Validate numerical columns
 
@@ -150,7 +151,7 @@ class DataValidation:
             
             if len(error_message)>0:
                 raise Exception(error_message)
-
+            print("............numeric columns validated")
             #Let check data drift
             status = self.detect_dataset_drift(base_df=train_dataframe,current_df=test_dataframe)
 
@@ -162,7 +163,7 @@ class DataValidation:
                 invalid_test_file_path=None,
                 drift_report_file_path=self.data_validation_config.drift_report_file_path,
             )
-
+            print("............validation artifacts generated")
             logging.info(f"Data validation artifact: {data_validation_artifact}")
 
             return data_validation_artifact

@@ -67,11 +67,21 @@ class DataIngestion:
 
     def initiate_data_ingestion(self) -> DataIngestionArtifact:
         try:
-            dataframe = self.export_data_into_feature_store()
-            dataframe = dataframe.drop(self._schema_config["drop_columns"],axis=1)
-            self.split_data_as_train_test(dataframe=dataframe)
-            data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
-            test_file_path=self.data_ingestion_config.testing_file_path)
+            # NOTE: Uncomment below lines to run the data ingestion from scratch
+            print("............initiating data ingestion")
+            #dataframe = self.export_data_into_feature_store()
+            #dataframe = dataframe.drop(self._schema_config["drop_columns"],axis=1)
+            #self.split_data_as_train_test(dataframe=dataframe)
+            data_ingestion_artifact = DataIngestionArtifact(
+                #trained_file_path=self.data_ingestion_config.training_file_path,
+                #test_file_path=self.data_ingestion_config.testing_file_path
+                # NOTE: Uncomment below 2 hardcoded paths to run the data ingestion from scratch
+                # Devendra has hard coded the train and test file path to skip the data ingestion part
+                # as data ingestion takes time in reading, uploading and splitting the data
+                trained_file_path = 'artifact\\11_12_2022_17_44_30\\data_ingestion\\ingested\\train.csv',
+                test_file_path = 'artifact\\11_12_2022_17_44_30\\data_ingestion\\ingested\\test.csv'
+                )
+            print("............store data ingestion artifacts")
             return data_ingestion_artifact
         except Exception as e:
             raise SensorException(e,sys)

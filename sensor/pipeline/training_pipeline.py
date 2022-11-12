@@ -67,7 +67,7 @@ class TrainPipeline:
     def run_pipeline(self):
         try:
             print("......Inside run pipeline function")
-            data_ingestion_artifact:DataIngestionArtifact = self.start_data_ingestion()
+            data_ingestion_artifact = self.start_data_ingestion()
             print(".........data ingestion step has finished")
             data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact)
             print(".........data validation step has finished")

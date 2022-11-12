@@ -5,8 +5,8 @@ from sensor.pipeline.training_pipeline import TrainPipeline
 
 if __name__ == '__main__':
     print("Check#1 - MongoDB Connection Test")
-    mongodb_client = MongoDBClient()
-    print("collection name:",mongodb_client.database.list_collection_names())
+    # mongodb_client = MongoDBClient()
+    #print("collection name:",mongodb_client.database.list_collection_names())
 
 
     print("\nCheck#2 - DataIngestion Pipeline Connection")
