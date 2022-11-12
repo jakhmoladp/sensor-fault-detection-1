@@ -16,4 +16,6 @@ if __name__ == '__main__':
 
     print("\nCheck#3 - Training Pipeline Flow Testing")
     training_pipeline = TrainPipeline()
+    print('...TrainPipeline initialized')
     training_pipeline.run_pipeline()
+    print('...Pipeline ran successfully')

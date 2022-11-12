@@ -8,4 +8,5 @@ catboost
 from_root
 pyyaml
 dill
+scipy
 -e .
