@@ -3,13 +3,14 @@ This script defines the structure of Training pipeline. A pipeline is comprised 
 Each components translates some inputs to outputs. We had defined separate class methods to perform
 the various tasks.
 """
-from sensor.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig
-from sensor.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact
+from sensor.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig, DataTransformationConfig
+from sensor.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact
 from sensor.exception import SensorException
 import sys, os
 from sensor.logger import logging
 from sensor.components.data_ingestion import DataIngestion
 from sensor.components.data_validation import DataValidation
+from sensor.components.data_transformation import DataTransformation
 
 class TrainPipeline:
     
@@ -46,9 +47,24 @@ class TrainPipeline:
         except  Exception as e:
             raise  SensorException(e,sys)
 
-    def start_data_transformation(self):
+    def start_data_transformation(self, data_validation_artifact):
+        """
+        Include steps to transform the data and create inputs before sending to ML model.
+        """
         try:
-            pass
+            # read the data transformation configurations from schema.yaml file
+            data_transformation_config = DataTransformationConfig(self.training_pipeline_config)
+            
+            # Create object of DataTransformation class
+            # data transformation requires two inputs - data validation artificats i.e. report.yaml file
+            # that contains the validation result of each data column
+            data_transformation = DataTransformation(
+                data_validation_artifact,
+                data_transformation_config
+            )
+            # initiate data transformation
+            data_transformation_artifact =  data_transformation.initiate_data_transformation()
+            return data_transformation_artifact
         except Exception as e:
             raise SensorException(e, sys)  
 
@@ -69,8 +85,10 @@ class TrainPipeline:
             print("......Inside run pipeline function")
             data_ingestion_artifact = self.start_data_ingestion()
             print(".........data ingestion step has finished")
-            data_validation_artifact=self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact)
+            data_validation_artifact = self.start_data_validaton(data_ingestion_artifact=data_ingestion_artifact)
             print(".........data validation step has finished")
+            data_transformation_artifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
+            print(".........data transformation step has finished")
         except Exception as e:
             raise SensorException(e, sys)
 

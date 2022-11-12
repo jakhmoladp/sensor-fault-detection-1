@@ -9,4 +9,5 @@ from_root
 pyyaml
 dill
 scipy
+imblearn
 -e .
