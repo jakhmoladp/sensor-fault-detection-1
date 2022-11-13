@@ -9,10 +9,7 @@ from sklearn.pipeline import Pipeline
 
 
 from sensor.constant.training_pipeline import TARGET_COLUMN
-from sensor.entity.artifact_entity import (
-    DataTransformationArtifact,
-    DataValidationArtifact,
-)
+from sensor.entity.artifact_entity import DataTransformationArtifact, DataValidationArtifact
 from sensor.entity.config_entity import DataTransformationConfig
 from sensor.exception import SensorException
 from sensor.logger import logging
@@ -105,11 +102,11 @@ class DataTransformation:
             test_arr = np.c_[ input_feature_test_final, np.array(target_feature_test_final) ]
 
             # store the train and test data into numpy array object (.npy format)
-            save_numpy_array_data( self.data_transformation_config.transformed_train_file_path, array=train_arr, )
-            save_numpy_array_data( self.data_transformation_config.transformed_test_file_path,array=test_arr,)
+            save_numpy_array_data(self.data_transformation_config.transformed_train_file_path, array=train_arr, )
+            save_numpy_array_data(self.data_transformation_config.transformed_test_file_path,array=test_arr,)
             
             # store the data into 'dill' file format
-            save_object( self.data_transformation_config.transformed_object_file_path, preprocessor_object,)
+            save_object(self.data_transformation_config.transformed_object_file_path, preprocessor_object,)
              
             #preparing artifact
             data_transformation_artifact = DataTransformationArtifact(
