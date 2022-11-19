@@ -1,4 +1,4 @@
-from sensor.constant.training_pipeline import SAVED_MODEL_DIR,MODEL_FILE_NAME
+from sensor.constant.training_pipeline import SAVED_MODEL_DIR, MODEL_FILE_NAME
 import os
 
 class TargetValueMapping:
@@ -12,8 +12,6 @@ class TargetValueMapping:
     def reverse_mapping(self):
         mapping_response = self.to_dict()
         return dict(zip(mapping_response.values(), mapping_response.keys()))
-
-
 
 
 #Write a code to train model and check the accuracy.
