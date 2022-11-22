@@ -1,10 +1,16 @@
+# This script contains the classes to store values of configuration related variables
+# variables defined here are referenced by other steps in the product workflow
 from datetime import datetime
 import os
 from sensor.constant  import training_pipeline
 
 class TrainingPipelineConfig:
-
     def __init__(self,timestamp=datetime.now()):
+        # variables declared in this class are used to create folders with timestamp
+        # which allows storing artifacts in separate directories whenever training pipeline is run
+        #
+        # This facilitate in comparing the model performance and allows easier rollback to previous
+        # version of the model
         timestamp = timestamp.strftime("%m_%d_%Y_%H_%M_%S")
         self.pipeline_name: str = training_pipeline.PIPELINE_NAME
         self.artifact_dir: str = os.path.join(training_pipeline.ARTIFACT_DIR, timestamp)
@@ -73,6 +79,7 @@ class ModelEvaluationConfig:
         )
         self.report_file_path = os.path.join(self.model_evaluation_dir,
         training_pipeline.MODEL_EVALUATION_REPORT_NAME)
+        self.change_threshold = training_pipeline.MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE
 
 class ModelPusherConfig:
 

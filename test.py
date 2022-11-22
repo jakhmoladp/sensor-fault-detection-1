@@ -1,9 +1,7 @@
-import os
+from fastapi import FastAPI
 
-with open("requirements.txt", 'r') as f:
-    lst = f.read().splitlines()
+app = FastAPI()
 
-lst = [lib for lib in lst if not (lib.strip() == '' or lib.strip() == '-e .')]
-
-print(lst)
-
+@app.get("/")
+async def root():
+    return {"message": "hello world"}

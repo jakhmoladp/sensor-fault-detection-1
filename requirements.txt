@@ -10,4 +10,6 @@ pyyaml
 dill
 scipy
 imblearn
+fastapi
+uvicorn
 -e .

@@ -16,7 +16,7 @@ from sensor.components.model_evaluation import ModelEvaluation
 from sensor.components.model_pusher import ModelPusher
 
 class TrainPipeline:
-    
+    is_pipeline_running=False
     def __init__(self):
         training_pipeline_config = TrainingPipelineConfig()
         self.data_ingestion_config = DataIngestionConfig(training_pipeline_config=training_pipeline_config)
@@ -102,6 +102,7 @@ class TrainPipeline:
 
     def run_pipeline(self):
         try:
+            TrainPipeline.is_pipeline_running=True
             print("......Inside run pipeline function")
             data_ingestion_artifact = self.start_data_ingestion()
             print("1.........data INGESTION step has finished")
@@ -122,7 +123,9 @@ class TrainPipeline:
                 raise Exception("Trained model is not better than the best model")
             model_pusher_artifact = self.start_model_pusher(model_eval_artifact)
             print("6.........model PUSHER step has finished")
+            TrainPipeline.is_pipeline_running=False
         except Exception as e:
+            TrainPipeline.is_pipeline_running=False
             raise SensorException(e, sys)
 
  
